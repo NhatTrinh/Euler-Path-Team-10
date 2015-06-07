@@ -1,6 +1,12 @@
 // class declaration for Team Project 10
+#pragma once
+#include <iostream>
+#include "LinkedGraph.h"
 
-class Euler: public LinkedGraph
+using namespace std;
+
+template <class ItemType>
+class Euler: public LinkedGraph<ItemType>
 {
   private:
   
