@@ -15,7 +15,7 @@ int main()
 void mainMenu()
 {
   cout << "1. ";
-  cout << "2. ";
+  cout << "2. Add or remove graph edges" << endl;
   cout << "3. ";
   cout << "4. ";
 }
