@@ -11,36 +11,37 @@ bool openInputFile(ifstream &ifs);
 
 int main()
 {
-  int choice = 0;
-  
-  if (! greetUser())
-    return 0;
-  
-  mainMenu();
-  return 0;
+	int userChoice = 0;
+
+	if (!greetUser())
+		return 0;
+
+	mainMenu();
+	mainMenuLoop();
+	return 0;
 }
 
 bool greetUser()
 {
-  char choice;
-  cout << "Welcome to the Euler's Path Program!" << endl;
-  cout << endl;
-  cout << "Do you want to run this program? " << endl;
-  
-  cout << "Type Y for YES or N for NO: ";
-  cin >> choice;
-  
-  if (choice == 'Y')
-    return true;
-  return false;
+	char choice;
+	cout << "Welcome to the Euler's Path Program!" << endl;
+	cout << endl;
+	cout << "Do you want to run this program? " << endl;
+
+	cout << "Type Y for YES or N for NO: ";
+	cin >> choice;
+
+	if (choice == 'Y')
+		return true;
+	return false;
 }
 void mainMenu()
 {
-  cout << "1. Add a graph edge" << endl;
-  cout << "2. Remove a graph edge" << endl;
-  cout << "3. Solve the graph (Euler's Path)" << endl;
-  cout << "4. Write graph to file" << endl;
-  cout << "5. Quit the program" << endl;
+	cout << "1. Add a graph edge" << endl;
+	cout << "2. Remove a graph edge" << endl;
+	cout << "3. Solve the graph (Euler's Path)" << endl;
+	cout << "4. Write graph to file" << endl;
+	cout << "5. Quit the program" << endl;
 }
 
 bool openInputFile(ifstream &ifs)
@@ -53,41 +54,44 @@ bool openInputFile(ifstream &ifs)
 	return ifs.is_open();
 }
 
+// this function takes in user input and checks for errors if the user did not enter in a correct number
 bool mainMenuLoop()
 {
-  cout << "Enter your choice: ";
-  cin >> choice;
-  switch (choice)
-  {
-    case 5:
-    {
-      cout << endl;
-      cout << "Thanks for using this program." << endl;
-      return true;
-    }
-     
-    default:
-      cout << "You have entered an invalid number!" << endl;
-      break;
-  }
-  while (choice != 5)
-  {
-  cout << "Enter your choice: ";
-  cin >> choice;
-  switch (choice)
-  {
-    case 5:
-    {
-      cout << endl;
-      cout << "Thanks for using this program." << endl;
-      return true;
-    }
-     
-    default:
-      cout << "You have entered an invalid number!" << endl;
-      return false;
-      break;
-  }
-  }
-  return true;
+	int choice = 0;
+	bool retVal = 0;
+
+	cout << "Enter your choice: ";
+	cin >> choice;
+	switch (choice)
+	{
+	case 5:
+	{
+		cout << endl;
+		cout << "Thanks for using this program." << endl;
+		break;
+	}
+
+	default:
+		cout << "You have entered an invalid number, try again." << endl;
+		break;
+	}
+	while (choice != 5)
+	{
+		cout << "Enter your choice: ";
+		cin >> choice;
+		switch (choice)
+		{
+		case 5:
+		{
+			cout << endl;
+			cout << "Thanks for using this program." << endl;
+			break;
+		}
+
+		default:
+			cout << "You have entered an invalid number, try again." << endl;
+			break;
+		}
+	}
+	return retVal;
 }
