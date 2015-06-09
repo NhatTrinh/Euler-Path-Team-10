@@ -51,6 +51,8 @@ class Euler: public LinkedGraph<ItemType>
     
     //This function returns count of vertices reachable from v.
     int DFSCount();
+    //This function is used to check if the graph makes a eulerian graph
+    bool IfEuler();
     
   	void createMinSpanTree();
   	void writeMinSpanTree(ostream &os);
