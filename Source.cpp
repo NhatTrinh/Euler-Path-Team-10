@@ -6,6 +6,7 @@ using namespace std;
 
 bool greetUser();
 void mainMenu();
+bool mainMenuLoop();
 bool openInputFile(ifstream &ifs);
 
 int main()
@@ -16,24 +17,6 @@ int main()
     return 0;
   
   mainMenu();
-  cout << "Enter your choice: ";
-  cin >> choice;
-  while (choice != 5)
-  {
-  switch (choice)
-  {
-    case 5:
-    {
-      cout << endl;
-      cout << "Thanks for using this program." << endl;
-      return 0;
-    }
-     
-    default:
-      cout << "You have entered an invalid number!" << endl;
-      break;
-  }
-  }
   return 0;
 }
 
@@ -70,3 +53,41 @@ bool openInputFile(ifstream &ifs)
 	return ifs.is_open();
 }
 
+bool mainMenuLoop()
+{
+  cout << "Enter your choice: ";
+  cin >> choice;
+  switch (choice)
+  {
+    case 5:
+    {
+      cout << endl;
+      cout << "Thanks for using this program." << endl;
+      return true;
+    }
+     
+    default:
+      cout << "You have entered an invalid number!" << endl;
+      break;
+  }
+  while (choice != 5)
+  {
+  cout << "Enter your choice: ";
+  cin >> choice;
+  switch (choice)
+  {
+    case 5:
+    {
+      cout << endl;
+      cout << "Thanks for using this program." << endl;
+      return true;
+    }
+     
+    default:
+      cout << "You have entered an invalid number!" << endl;
+      return false;
+      break;
+  }
+  }
+  return true;
+}
