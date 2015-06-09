@@ -34,7 +34,7 @@ bool greetUser()
 
 	if (choice == 'Y' || choice == 'y')
 		answer = true;
-	return answer
+	return answer;
 }
 void mainMenu()
 {
