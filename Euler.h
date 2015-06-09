@@ -49,6 +49,9 @@ class Euler: public LinkedGraph<ItemType>
     Euler(){}
     ~Euler(){}
     
+    //This function returns count of vertices reachable from v.
+    int DFSCount();
+    
   	void createMinSpanTree();
   	void writeMinSpanTree(ostream &os);
   	void writeOrderedEdges(ostream &os);
