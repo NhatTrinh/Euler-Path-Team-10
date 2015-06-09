@@ -24,6 +24,7 @@ int main()
 bool greetUser()
 {
 	char choice;
+	bool answer = false;
 	cout << "Welcome to the Euler's Path Program!" << endl;
 	cout << endl;
 	cout << "Do you want to run this program? " << endl;
@@ -31,9 +32,9 @@ bool greetUser()
 	cout << "Type Y for YES or N for NO: ";
 	cin >> choice;
 
-	if (choice == 'Y')
-		return true;
-	return false;
+	if (choice == 'Y' || choice == 'y')
+		answer = true;
+	return answer
 }
 void mainMenu()
 {
