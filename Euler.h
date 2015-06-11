@@ -7,6 +7,7 @@
 #include "LinkedGraph.h"
 #include "Edge"
 #include “Vertex"
+
 //more head files will be added when we need them
 using namespace std;
 
@@ -86,8 +87,9 @@ class Euler: public LinkedGraph<ItemType>
     
     bool ifEuler()
     {
+    	
     	// traverse through the vertices 
-        // if there are 0 or 2 of odd vertices, then the graph is eulerian
-        // return bool
+        // return true if there are 0 or 2 of odd vertices, then the graph is eulerian
+        // return false otherwise 
     }
 };
