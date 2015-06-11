@@ -40,8 +40,8 @@ class Euler: public LinkedGraph<ItemType>
   
   	};
     private:
-    	vector<EulerEdge<ItemType>> minSpanTree; // shortest path
-  	  vector<EulerEdge<ItemType>> orderedEdges;//
+	vector<EulerEdge<ItemType>> minSpanTree; // shortest path
+  	vector<EulerEdge<ItemType>> orderedEdges;
      //needed for creating minispintree
    void selectionSort(vector<EulerEdge<ItemType>> &array, int size);
     
@@ -69,7 +69,11 @@ class Euler: public LinkedGraph<ItemType>
       }
       return false;
     }
-    bool remove(ItemType start, ItemType end);
+    bool remove(ItemType start, ItemType end)
+    {
+        
+        
+    }
     
     bool isValidNextEdge() // key step, use this to find the path of Fleury’s Algorithm
     {
@@ -78,5 +82,10 @@ class Euler: public LinkedGraph<ItemType>
       //u is nodes
       //1) If v is the only adjacent vertex of u
       //2) If there are multiple adjacents, then u-v is not a bridge
+    }
+    
+    bool ifEuler()
+    {
+        
     }
 };
