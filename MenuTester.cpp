@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "Euler.h"
 
 using namespace std;
 
@@ -12,11 +13,11 @@ bool openInputFile(ifstream &ifs);
 int main()
 {
 	int userChoice = 0;
+	Euler<string> * eulerGraph = new Euler<string>();
 
 	if (!greetUser())
 		return 0;
 
-	mainMenu();
 	mainMenuLoop();
 	return 0;
 }
@@ -61,33 +62,63 @@ bool mainMenuLoop()
 	int choice = 0;
 	bool retVal = 0;
 
-	cout << "Enter your choice: ";
-	cin >> choice;
-	switch (choice)
-	{
-	case 5:
-	{
-		cout << endl;
-		cout << "Thanks for using this program." << endl;
-		break;
-	}
-
-	default:
-		cout << "You have entered an invalid number, try again." << endl;
-		break;
-	}
 	while (choice != 5)
 	{
-		cout << "Enter your choice: ";
+		mainMenu();
+		string city1, city2;
+		int cityWeight;
+		
+		cout << "Enter your menu option choice: ";
 		cin >> choice;
+
 		switch (choice)
 		{
+		case 1:
+			cout << "Enter the first city name: ";
+			cin >> city1;
+			cout << "Enter the second city name: ";
+			cin >> city2;
+			cout << "Enter the weight of the edge: ";
+			cin >> cityWeight;
+
+			if (eulerGraph->add(city1, city2, cityWeight))
+			{
+				cout << "Edge successfully added" << endl;
+			} else {
+				cout << "Did not work, try again" << endl;
+			}
+
+			break;
+		case 2:
+			cout << "Enter the first city name: ";
+			cin >> city1;
+			cout << "Enter the second city name: ";
+			cin >> city2;
+
+			if (eulerGraph->remove(city1, city2))
+			{
+				cout << "Edge successfully removed" << endl;
+			} else {
+				cout << "Did not work, try again" << endl;
+			}
+
+			break;
+		case 3:
+			cout << "Checking if the graph is Euler..." << endl;
+			if (eulerGraph->isEuler());
+			{
+				cout << "The graph satisfies the Euler's condition" << endl;
+			} else {
+				cout << "The graph does not satisfy the Euler's condition" << endl;
+			}
+
+			break;
+		case 4:
+			
 		case 5:
-		{
 			cout << endl;
 			cout << "Thanks for using this program." << endl;
 			break;
-		}
 
 		default:
 			cout << "You have entered an invalid number, try again." << endl;
