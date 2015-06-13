@@ -53,28 +53,11 @@ class Euler: public LinkedGraph<ItemType>
     //This function returns count of vertices reachable from v.
     int DFSCount();
     //This function is used to check if the graph makes a eulerian graph
-    bool IfEuler();
+    bool isEuler();
     
   	void createMinSpanTree();
   	void writeMinSpanTree(ostream &os);
   	void writeOrderedEdges(ostream &os);
-  	
-    bool add(ItemType start,ItemType end, int edgeWeight=0)
-    { 
-      if(LinkedGraph<ItemType>::add(start,end,edgeWeight))
-      {
-        Edge<ItemType edge(end,edgeWeight);
-        EulerEdge<ItemType> newEdge(start, edge);
-    		orderedEdges.push_back(newEdge);
-    		return true;
-      }
-      return false;
-    }
-    bool remove(ItemType start, ItemType end)
-    {
-        
-        
-    }
     
     bool isValidNextEdge() // key step, use this to find the path of Fleury’s Algorithm
     {
@@ -85,7 +68,7 @@ class Euler: public LinkedGraph<ItemType>
       //2) If there are multiple adjacents, then u-v is not a bridge
     }
     
-    bool ifEuler()
+    bool isEuler()
     {
     	
     	// traverse through the vertices 
