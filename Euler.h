@@ -6,7 +6,7 @@
 #include <vector>
 #include "LinkedGraph.h"
 #include "Edge.h"
-#include “Vertex.h"
+#include "Vertex.h"
 
 //more head files will be added when we need them
 using namespace std;
