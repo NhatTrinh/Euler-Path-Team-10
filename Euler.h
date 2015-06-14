@@ -76,18 +76,44 @@ void Euler::eulerremove()
 	EulerEdge<ItemType> tempvec = eulerlist[removecount];
 	storelink -> push(tempvec);
 	eulerlist.erase();
-	removecount++''
+	removecount++;
 }
 
 template <class ItemType>    
 bool Euler::isValidNextEdge() 
-    {
-      // need to check
-      //v is # of vertex
-      //u is nodes
-      //1) If v is the only adjacent vertex of u
-      //2) If there are multiple adjacents, then u-v is not a bridge
-    }
+{
+// The edge u-v is valid in one of the following two cases:
+ 
+  // 1) If v is the only adjacent vertex of u
+  int count = 0;  // To store count of adjacent vertices
+  list<int>::iterator i;
+  for (i = adj[u].begin(); i != adj[u].end(); ++i)
+     if (*i != -1)
+        count++;
+  if (count == 1)
+    return true;
+ 
+ 
+  // 2) If there are multiple adjacents, then u-v is not a bridge
+  // Do following steps to check if u-v is a bridge
+ 
+  // 2.a) count of vertices reachable from u
+  bool visited[V];
+  memset(visited, false, V);
+  int count1 = DFSCount(u, visited);
+ 
+  // 2.b) Remove edge (u, v) and after removing the edge, count
+  // vertices reachable from u
+  rmvEdge(u, v);
+  memset(visited, false, V);
+  int count2 = DFSCount(u, visited);
+ 
+  // 2.c) Add the edge back to the graph
+  addEdge(u, v);
+ 
+  // 2.d) If count1 is greater, then edge (u, v) is a bridge
+  return (count1 > count2)? false: true;
+}
     
 template <class ItemType>
 bool Euler::isEuler()
