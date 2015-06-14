@@ -7,7 +7,7 @@
 #include "LinkedGraph.h"
 #include "Edge.h"
 #include "Vertex.h"
-#include LinkedStack.h
+#include "LinkedStack.h"
 
 //more head files will be added when we need them
 using namespace std;
@@ -37,20 +37,24 @@ class Euler: public LinkedGraph<ItemType>
     private:
     LinkedStack<ItemType> storelink;
     vector<EulerEdge<ItemType>> eulerlist;
-    
+    int removecount;
     public:
-    Euler(){}
+    Euler(){removecount = 0;}
     ~Euler(){}
     //add elements to the euler list
     void euleradd();
     //remove elements to the euler list
     void eulerremove();
+    //recover elements to the euler list
+    void eulerrecover();
     //This function is used to check if the graph makes a eulerian graph
     bool isEuler();
     // key step, use this to find the path of Fleury’s Algorithm    
     bool isValidNextEdge();
     // Method to check if all non-zero degree vertices are connected
     bool isConnected();
+    // Function to do DFS starting from v. Used in isConnected();
+    void DFSUtil(int v,bool visited[]);
 };    
 template <class ItemType>    
 void Euler::euleradd(EulerEdge<ItemType> a)
@@ -59,10 +63,20 @@ void Euler::euleradd(EulerEdge<ItemType> a)
 }
 
 template <class ItemType>    
+void Euler::eulerrecover()
+{
+	eulerlist.inster(storelink->peek());
+	storelink->pop();
+	removecount--;
+}
+
+template <class ItemType>    
 void Euler::eulerremove()
 {
-	EulerEdge<ItemType> tempvec = eulerlist[0];
+	EulerEdge<ItemType> tempvec = eulerlist[removecount];
+	storelink -> push(tempvec);
 	eulerlist.erase();
+	removecount++''
 }
 
 template <class ItemType>    
@@ -84,8 +98,8 @@ bool Euler::isEuler()
 		
 	// Count vertices with odd degree
 	int odd = 0;
-	for (int i = 0; i < V; i++)
-		if (adj[i].size() & 1)
+	for (int i = 0; i < eulerlist->getNumVertices(); i++)
+		if (eulerlist[i].size() & 1)
 			odd++;
 
 	// If count is more than 2, then graph is not Eulerian
@@ -98,6 +112,19 @@ bool Euler::isEuler()
 	return (odd) ? 1 : 2;
     }
     
+template <class ItemType>
+bool Euler::DFSUtil(int v, bool visited[])
+{
+    // Mark the current node as visited and print it
+    visited[v] = true;
+ 
+    // Recur for all the vertices adjacent to this vertex
+    list<int>::iterator i;
+    for (i = eulerlist[v].begin(); i != eulerlist[v].end(); ++i)
+        if (!visited[*i])
+            DFSUtil(*i, visited);
+}
+
 template <class ItemType>
 bool Euler::isConnected()
 {
