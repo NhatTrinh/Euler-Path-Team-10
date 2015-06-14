@@ -117,7 +117,7 @@ bool Euler::isValidNextEdge()
     
 template <class ItemType>
 bool Euler::isEuler()
-   {
+{
 	// Check if all non-zero degree vertices are connected
 	if (isConnected() == false)
 		return 0;
@@ -136,7 +136,7 @@ bool Euler::isEuler()
 	// If odd count is 0, then eulerian
 	// Note that odd count can never be 1 for undirected graph
 	return (odd) ? 1 : 2;
-    }
+}
     
 template <class ItemType>
 bool Euler::DFSUtil(int v, bool visited[])
