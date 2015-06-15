@@ -25,6 +25,7 @@ public:
 	bool push(const ItemType& newItem);
 	bool pop();
 	ItemType peek() const {return topPtr->getItem();}
+	int size() const{ return count; }
 };
 
 /////////////// add to this class so it's not an abstract class
