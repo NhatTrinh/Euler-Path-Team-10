@@ -145,7 +145,7 @@ bool Euler::DFSUtil(int v, bool visited[])
     visited[v] = true;
  
     // Recur for all the vertices adjacent to this vertex
-    list<int>::iterator i;
+   vector<EulerEdge<ItemType>>::iterator i;
     for (i = eulerlist[v].begin(); i != eulerlist[v].end(); ++i)
         if (!visited[*i])
             DFSUtil(*i, visited);
