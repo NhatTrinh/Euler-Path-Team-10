@@ -32,7 +32,7 @@ class Euler: public LinkedGraph<ItemType>
   		int getWeight() const { return edge.getWeight(); }
   		bool isChecked() const { return checked; }
   
-  		bool operator<(const EulerEdge &right)	{	return this->edge.getWeight() < right.getWeight();}
+  		bool operator<(const EulerEdge &right)	{return this->edge.getWeight() < right.getWeight();}
   	};
     private:
     LinkedStack<ItemType> storelink;
@@ -55,7 +55,45 @@ class Euler: public LinkedGraph<ItemType>
     bool isConnected();
     // Function to do DFS starting from v. Used in isConnected();
     void DFSUtil(int v,bool visited[]);
+      // Methods to print Eulerian tour
+  void printEulerTour();
+  void printEulerUtil(int s);
+  
 };    
+/* The main function that print Eulerian Trail. It first finds an odd
+   degree vertex (if there is any) and then calls printEulerUtil()
+   to print the path */
+void Graph::printEulerTour()
+{
+  // Find a vertex with odd degree
+  int u = 0;
+  for (int i = 0; i < eulerlist->getNumVertices(); i++)
+      if (eulerlist[i].size() & 1)
+        {   u = i; break;  }
+ 
+  // Print tour starting from oddv
+  printEulerUtil(u);
+  cout << endl;
+}
+
+// Print Euler tour starting from vertex u
+void Graph::printEulerUtil(int u)
+{
+  // Recur for all the vertices adjacent to this vertex
+  list<int>::iterator i;
+  for (i = eulerlist[u].begin(); i != eulerlist[u].end(); ++i)
+  {
+      int v = *i;
+ 
+      // If edge u-v is not removed and it's a a valid next edge
+      if (v != -1 && isValidNextEdge(u, v))
+      {
+          cout << u << "-" << v << "  ";
+          rmvEdge(u, v);
+          printEulerUtil(v);
+      }
+  }
+}
 template <class ItemType>    
 void Euler::euleradd(EulerEdge<ItemType> a)
 {
@@ -87,7 +125,7 @@ bool Euler::isValidNextEdge()
   // 1) If v is the only adjacent vertex of u
   int count = 0;  // To store count of adjacent vertices
   list<int>::iterator i;
-  for (i = adj[u].begin(); i != adj[u].end(); ++i)
+  for (i = eulerlist[u].begin(); i != eulerlist[u].end(); ++i)
      if (*i != -1)
         count++;
   if (count == 1)
@@ -98,14 +136,14 @@ bool Euler::isValidNextEdge()
   // Do following steps to check if u-v is a bridge
  
   // 2.a) count of vertices reachable from u
-  bool visited[V];
-  memset(visited, false, V);
+  bool visited[eulerlist->getNumVertices()];
+  memset(visited, false, eulerlist->getNumVertices());
   int count1 = DFSCount(u, visited);
  
   // 2.b) Remove edge (u, v) and after removing the edge, count
   // vertices reachable from u
   rmvEdge(u, v);
-  memset(visited, false, V);
+  memset(visited, false, eulerlist->getNumVertices());
   int count2 = DFSCount(u, visited);
  
   // 2.c) Add the edge back to the graph
