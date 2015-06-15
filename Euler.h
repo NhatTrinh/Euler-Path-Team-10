@@ -114,7 +114,7 @@ template <class ItemType>
 void Euler::eulerremove()
 {
 	EulerEdge<ItemType> tempvec = eulerlist[removecount];
-	storelink -> push(tempvec);
+	storelink->push(tempvec);
 	eulerlist.erase();
 	removecount++;
 }
