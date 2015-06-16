@@ -139,10 +139,7 @@ template <class ItemType>
 bool Euler<ItemType>::isConnected()
 {
 	// Mark all the vertices as not visited
-	bool visited[Eulertree->getNumVertices()];
-	int i;
-	for (i = 0; i < Eulertree->getNumVertices(); i++)
-		visited[i] = false;
+	Eulertree->unvisitVertices();
 
 	// Find a vertex with non-zero degree
 	for (i = 0; i < Eulertree->getNumVertices(); i++)
@@ -154,11 +151,11 @@ bool Euler<ItemType>::isConnected()
 		return true;
 
 	// Start DFS traversal from a vertex with non-zero degree
-	DFSUtil(i, visited);
+//	DFSUtil(i, visited);
 
 	// Check if all non-zero degree vertices are visited
 	for (i = 0; i < Eulertree->getNumVertices(); i++)
-		if (visited[i] == false && Eulertree[i].size() > 0)
+		if (Eulertree[i]->isVisited() == false && Eulertree[i].size() > 0)
 			return false;
 
 	return true;
