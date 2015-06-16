@@ -98,14 +98,16 @@ bool mainMenuLoop(Euler<string> * &eulerGraph)
 			if (eulerGraph->remove(city1, city2))
 			{
 				cout << "Edge successfully removed" << endl;
-			} else {
+			}
+			else 
+			{
 				cout << "Did not work, try again" << endl;
 			}
 
 			break;
 		case 3:
 			cout << "Checking if the graph is Euler..." << endl;
-			if (eulerGraph->isEuler());
+			if (eulerGraph->isEuler())
 			{
 				cout << "The graph satisfies the Euler's condition" << endl;
 			} else {
