@@ -7,7 +7,7 @@ using namespace std;
 
 bool greetUser();
 void mainMenu();
-bool mainMenuLoop();
+bool mainMenuLoop(Euler<string> * &eulerGraph);
 bool openInputFile(ifstream &ifs);
 
 int main()
@@ -18,7 +18,7 @@ int main()
 	if (!greetUser())
 		return 0;
 
-	mainMenuLoop();
+	mainMenuLoop(eulerGraph);
 	return 0;
 }
 
@@ -57,7 +57,7 @@ bool openInputFile(ifstream &ifs)
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-bool mainMenuLoop()
+bool mainMenuLoop(Euler<string> * &eulerGraph)
 {
 	int choice = 0;
 	bool retVal = 0;
