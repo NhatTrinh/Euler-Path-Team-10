@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
+#include <fstream>
 #include "LinkedGraph.h"
 #include "Edge.h"
 #include "Vertex.h"
@@ -26,7 +27,7 @@ class Euler : public LinkedGraph<LabelType>
 		bool checked;
 	public:
 		EulerEdge(){ startpoint = 0; edge = 0; checked = 0; }
-		EulerEdge(LabelType start, Edge<LabelType> ed){ startLabel = start; edge = ed; checked = false; }
+		EulerEdge(LabelType start, Edge<LabelType> ed){ startLabel = start; Edge = ed; checked = false; }
 
 		void setChecked(bool value){ checked = value; }
 		LabelType getStart()const { return startLabel; }
@@ -45,7 +46,7 @@ private:
 	// key step, use this to find the path of Fleury’s Algorithm    
 	bool isValidNextEdge(LabelType a, LabelType b);
 public:
-	Euler(){}
+	Euler(bool openInputFile(ifstream &ifs);
 	~Euler(){}
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
@@ -53,6 +54,17 @@ public:
 	bool add(LabelType start, LabelType end, int edgeWeight = 0);
 	bool remove(LabelType start, LabelType end);
 	bool findEulerPath();
+};
+
+// class constructor with infile stream to populate the graph
+template <class LabelType>
+Euler::Euler(bool openInputFile(ifstream &ifs))
+{
+	LabelType start;
+	LabelType end;
+	int edgeWeight = 0;
+	
+	
 }
 template <class LabelType>
 bool Euler<LabelType>::add(LabelType start, LabelType end, int edgeWeight = 0)
