@@ -50,7 +50,7 @@ public:
 	~Euler(){}
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
-
+	bool findEulerPath();
 	bool add(LabelType start, LabelType end, int edgeWeight = 0)
 	{
 		if (LinkedGraph<LabelType>::add(start, end, edgeWeight))
@@ -163,4 +163,9 @@ bool Euler<LabelType>::isConnected()
 			return false;
 
 	return true;
+}
+
+bool Euler<LabelType>::findEulerPath()
+{
+	
 }
