@@ -50,7 +50,7 @@ void mainMenu()
 	cout << "2. Add a graph edge" << endl;
 	cout << "3. Remove a graph edge" << endl;
 	cout << "4. Solve the graph (Euler's Path)" << endl;
-	cout << "5. Write graph to file" << endl;
+	cout << "5. Display the Graph" << endl;
 	cout << "6. Write graph to file" << endl;
 	cout << "7. Quit the program" << endl;
 }
