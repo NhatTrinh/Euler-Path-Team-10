@@ -7,18 +7,27 @@ using namespace std;
 
 bool greetUser();
 void mainMenu();
-bool mainMenuLoop(Euler<string> * &eulerGraph);
+bool mainMenuLoop(Euler<string> * &eulerGraph, bool & stopLoop);
 bool openInputFile(ifstream &ifs);
 
 int main()
 {
 	int userChoice = 0;
 	Euler<string> * eulerGraph = new Euler<string>();
-
+	bool stopLoop = false;
+	ifstream ifs;
+	string inputData;
+	
+	while(!openInputFile)
+	{
+		cout << "Reenter the file name." << endl;
+	}
 	if (!greetUser())
 		return 0;
-
-	mainMenuLoop(eulerGraph);
+	while (stopLoop != true)
+	{
+		mainMenuLoop(eulerGraph);
+	}
 	return 0;
 }
 
@@ -57,7 +66,7 @@ bool openInputFile(ifstream &ifs)
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-bool mainMenuLoop(Euler<string> * &eulerGraph)
+bool mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 {
 	int choice = 0;
 	bool retVal = 0;
@@ -120,6 +129,7 @@ bool mainMenuLoop(Euler<string> * &eulerGraph)
 		case 5:
 			cout << endl;
 			cout << "Thanks for using this program." << endl;
+			loopStop = true;
 			break;
 
 		default:
