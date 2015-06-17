@@ -16,6 +16,7 @@ using namespace std;
 template <class LabelType>
 class Euler : public LinkedGraph<LabelType>
 {
+	// nested class Euler Edge, data to connect one vertice to another
 	template <class LabelType>
 	class EulerEdge
 	{
@@ -25,8 +26,8 @@ class Euler : public LinkedGraph<LabelType>
 		bool checked;
 	public:
 		EulerEdge(){ startpoint = 0; edge = 0; checked = 0; }
-		EulerEdge(LabelType start, Edge<LabelType> ed){ startLabel = start; Edge = ed; checked = false; }
-
+		EulerEdge(LabelType start, LabelType ed){ startLabel = start; Edge = ed; checked = false; }
+		
 		void setChecked(bool value){ checked = value; }
 		LabelType getStart()const { return startLabel; }
 		LabelType getEnd() const { return edge.getEndVertex(); }
@@ -37,6 +38,7 @@ class Euler : public LinkedGraph<LabelType>
 	};
 
 private:
+	// Euler Tree
 	vector<LabelType> Eulertree;
 	// Method to check if all non-zero degree vertices are connected
 	bool isConnected();	
