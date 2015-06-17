@@ -40,7 +40,6 @@ class Euler : public LinkedGraph<LabelType>
 
 private:
 	vector<LabelType> Eulertree;
-	
 	// Method to check if all non-zero degree vertices are connected
 	bool isConnected();	
 
@@ -91,7 +90,7 @@ bool Euler<LabelType>::isValidNextEdge(LabelType start, LabelType end)
 	int count = 0;  // To store count of adjacent vertices
 	vector<EulerEdge<LabelType>>::iterator i;
 	//list<int>::iterator i;
-	for (i = eulerlist[start].begin(); i != eulerlist[start].end(); ++i)
+	for (i = Eulertree[start].begin(); i != Eulertree[start].end(); ++i)
 		if (*i != -1)
 			count++;
 	if (count == 1)
@@ -120,24 +119,42 @@ bool Euler<LabelType>::isValidNextEdge(LabelType start, LabelType end)
 template <class LabelType>
 bool Euler<LabelType>::isEuler()
 {
+	bool eulerianCheck = false;
 	// Check if all non-zero degree vertices are connected
 	if (isConnected() == false)
 		return 0;
 
 	// Count vertices with odd degree
 	int odd = 0;
-	for (int i = 0; i < eulerlist->getNumVertices(); i++)
-		if (eulerlist[i].size() & 1)
+	for (int i = 0; i < Eulertree->getNumVertices(); i++)
+	{
+		if (Eulertree[i].size() % 2 == 1)
+		{
 			odd++;
+		}
+	}
 
 	// If count is more than 2, then graph is not Eulerian
-	if (odd > 2)
-		return 0;
-
 	// If odd count is 2, then semi-eulerian.
 	// If odd count is 0, then eulerian
 	// Note that odd count can never be 1 for undirected graph
-	return (odd) ? 1 : 2;
+	
+	if (odd == 2)
+	{
+		cout << "There is one (one way or reverse) Eulerian path exists." << endl;
+		eulerianCheck = true;
+	}
+	else if (odd == 0)
+	{
+		cout << "There are Eulerian paths or circuits in this graph." << endl;
+		eulerianCheck = true;
+	}
+	else
+	{
+		cout << "There are NO Eulerian paths or circuits available in this graph." << endl;
+	}
+	
+	return checkEulerian;
 }
 
 template <class LabelType>
