@@ -10,9 +10,7 @@
 #include "Vertex.h"
 #include "LinkedStack.h"
 
-// nhat: double check if the project is supposed to use csv files as input, because i'm not sure it does
-// and the stack needs to be double checked also, because it only stores the removed edges that the user specified
-//more head files will be added when we need them
+
 using namespace std;
 
 template <class LabelType>
