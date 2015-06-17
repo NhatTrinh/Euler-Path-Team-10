@@ -22,6 +22,7 @@ int main()
 	{
 		cout << "Reenter the file name." << endl;
 	}
+	
 	if (!greetUser())
 		return 0;
 	while (stopLoop != true)
