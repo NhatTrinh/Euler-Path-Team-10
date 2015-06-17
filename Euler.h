@@ -17,7 +17,6 @@ using namespace std;
 template <class LabelType>
 class Euler : public LinkedGraph<LabelType>
 {
-	
 	template <class LabelType>
 	class EulerEdge
 	{
@@ -50,8 +49,13 @@ public:
 	~Euler(){}
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
+
+	bool add(LabelType start, LabelType end, int edgeWeight = 0);
+	bool remove(LabelType start, LabelType end);
 	bool findEulerPath();
-	bool add(LabelType start, LabelType end, int edgeWeight = 0)
+}
+template <class LabelType>
+bool Euler<LabelType>::add(LabelType start, LabelType end, int edgeWeight = 0)
 	{
 		if (LinkedGraph<LabelType>::add(start, end, edgeWeight))
 		{
@@ -62,24 +66,21 @@ public:
 		}
 		return false;
 	}
-	bool remove(LabelType start, LabelType end)
+template <class LabelType>	
+bool Euler<LabelType>::remove(LabelType start, LabelType end)
+{
+	vector<EulerEdge<LabelType>>::iterator i;
+	for (i = Eulertree.begin(); i != Eulertree.end(); ++i)
 	{
-		vector<EulerEdge<LabelType>>::iterator i;
-		for (i = Eulertree.begin(); i != Eulertree.end(); ++i)
-		{
-			LabelType end1 = i->getStart();
-			LabelType end2 = i->getEnd();
-			if (start == end1 && end == end2 || start == end2 && end == end1){
-				Eulertree.erase(i);
-				break;
-			}
+		LabelType end1 = i->getStart();
+		LabelType end2 = i->getEnd();
+		if (start == end1 && end == end2 || start == end2 && end == end1){
+			Eulertree.erase(i);
+			break;
 		}
 		return LinkedGraph<LabelType>::remove(start, end);
-	}
+}
 
-
-
-};
 
 template <class LabelType>
 bool Euler<LabelType>::isValidNextEdge(LabelType start, LabelType end)
