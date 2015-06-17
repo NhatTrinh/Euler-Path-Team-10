@@ -90,6 +90,8 @@ int LinkedGraph<LabelType>::getNumEdges() const
 template<class LabelType>
 bool LinkedGraph<LabelType>::add(LabelType start, LabelType end, int edgeWeight)
 {
+	if (start == end)
+		return false;
    Vertex<LabelType>* startVertex = findOrCreateVertex(start);
    Vertex<LabelType>* endVertex   = findOrCreateVertex(end);
 
