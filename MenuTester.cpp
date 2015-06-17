@@ -70,61 +70,53 @@ void mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 {
 	int choice = 0;
 
-	while (choice != 5)
+	mainMenu();
+	string city1, city2;
+	int cityWeight;
+	
+	cout << "Enter your menu option choice: ";
+	cin >> choice;
+	switch (choice)
 	{
-		mainMenu();
-		string city1, city2;
-		int cityWeight;
-		
-		cout << "Enter your menu option choice: ";
-		cin >> choice;
-
-		switch (choice)
-		{
-		case 1:
-			cout << "Enter the first city name: ";
-			cin >> city1;
-			cout << "Enter the second city name: ";
-			cin >> city2;
-			cout << "Enter the weight of the edge: ";
-			cin >> cityWeight;
-
-			if (eulerGraph->add(city1, city2, cityWeight))
-				cout << "Edge successfully added" << endl;
-			else 
-				cout << "Did not work, try again" << endl;
-
+	case 1:
+		cout << "Enter the first city name: ";			
+		cin >> city1;
+		cout << "Enter the second city name: ";
+		cin >> city2;
+		cout << "Enter the weight of the edge: ";
+		cin >> cityWeight;
+		if (eulerGraph->add(city1, city2, cityWeight))	
+			cout << "Edge successfully added" << endl;
+		else 
+			cout << "Did not work, try again" << endl;
 			break;
-		case 2:
-			cout << "Enter the first city name: ";
-			cin >> city1;
-			cout << "Enter the second city name: ";
-			cin >> city2;
-
-			if (eulerGraph->remove(city1, city2))
-				cout << "Edge successfully removed" << endl;
-			else 
-				cout << "Did not work, try again" << endl;
-
+	case 2:
+		cout << "Enter the first city name: ";
+		cin >> city1;
+		cout << "Enter the second city name: ";
+		cin >> city2;
+		if (eulerGraph->remove(city1, city2))
+			cout << "Edge successfully removed" << endl;
+		else 
+			cout << "Did not work, try again" << endl;
 			break;
-		case 3:
-			cout << "Checking if the graph is Euler..." << endl;
-			if (eulerGraph->isEuler())
-				cout << "The graph satisfies the Euler's condition" << endl;
-			 else 
-				cout << "The graph does not satisfy the Euler's condition" << endl;
+	case 3:		
+		cout << "Checking if the graph is Euler..." << endl;
+		if (eulerGraph->isEuler())
+			cout << "The graph satisfies the Euler's condition" << endl;
+		else 
+			cout << "The graph does not satisfy the Euler's condition" << endl;
 			break;
-		case 4:
+	case 4:
 			
-		case 5:
-			cout << endl;
-			cout << "Thanks for using this program." << endl;
-			loopStop = true;
-			break;
+	case 5:
+		cout << endl;
+		cout << "Thanks for using this program." << endl;
+		loopStop = true;
+		break;
 
-		default:
-			cout << "You have entered an invalid number, try again." << endl;
-			break;
-		}
+	default:
+		cout << "You have entered an invalid number, try again." << endl;
+		break;
 	}
 }
