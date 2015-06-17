@@ -7,7 +7,7 @@ using namespace std;
 
 bool greetUser();
 void mainMenu();
-bool mainMenuLoop(Euler<string> * &eulerGraph, bool & stopLoop);
+void mainMenuLoop(Euler<string> * &eulerGraph, bool & stopLoop);
 bool openInputFile(ifstream &ifs);
 
 int main()
@@ -26,7 +26,7 @@ int main()
 		return 0;
 	while (stopLoop != true)
 	{
-		mainMenuLoop(eulerGraph);
+		mainMenuLoop(eulerGraph,stopLoop);
 	}
 	return 0;
 }
@@ -66,10 +66,9 @@ bool openInputFile(ifstream &ifs)
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-bool mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
+void mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 {
 	int choice = 0;
-	bool retVal = 0;
 
 	while (choice != 5)
 	{
@@ -91,11 +90,9 @@ bool mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 			cin >> cityWeight;
 
 			if (eulerGraph->add(city1, city2, cityWeight))
-			{
 				cout << "Edge successfully added" << endl;
-			} else {
+			else 
 				cout << "Did not work, try again" << endl;
-			}
 
 			break;
 		case 2:
@@ -105,24 +102,17 @@ bool mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 			cin >> city2;
 
 			if (eulerGraph->remove(city1, city2))
-			{
 				cout << "Edge successfully removed" << endl;
-			}
 			else 
-			{
 				cout << "Did not work, try again" << endl;
-			}
 
 			break;
 		case 3:
 			cout << "Checking if the graph is Euler..." << endl;
 			if (eulerGraph->isEuler())
-			{
 				cout << "The graph satisfies the Euler's condition" << endl;
-			} else {
+			 else 
 				cout << "The graph does not satisfy the Euler's condition" << endl;
-			}
-
 			break;
 		case 4:
 			
@@ -137,5 +127,4 @@ bool mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 			break;
 		}
 	}
-	return retVal;
 }
