@@ -3,3 +3,6 @@ Cupertino, Campbell, 10
 Campbell, San Jose, 10
 Santa Clara, San Jose, 5
 Santa Clara, Campbell, 5
+San Jose, Milpitas, 5
+Milpitas, Fremont, 5
+Fremont, Oakland, 20
