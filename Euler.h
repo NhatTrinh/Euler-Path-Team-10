@@ -40,6 +40,7 @@ class Euler : public LinkedGraph<LabelType>
 
 private:
 	vector<LabelType> Eulertree;
+	
 	// Method to check if all non-zero degree vertices are connected
 	bool isConnected();	
 
