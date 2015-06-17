@@ -119,7 +119,7 @@ bool Euler<LabelType>::isValidNextEdge(LabelType start, LabelType end)
 template <class LabelType>
 bool Euler<LabelType>::isEuler()
 {
-	bool eulerianCheck = false;
+	bool checkEulerian = false;
 	// Check if all non-zero degree vertices are connected
 	if (isConnected() == false)
 		return 0;
@@ -142,12 +142,12 @@ bool Euler<LabelType>::isEuler()
 	if (odd == 2)
 	{
 		cout << "There is one (one way or reverse) Eulerian path exists." << endl;
-		eulerianCheck = true;
+		checkEulerian = true;
 	}
 	else if (odd == 0)
 	{
 		cout << "There are Eulerian paths or circuits in this graph." << endl;
-		eulerianCheck = true;
+		checkEulerian = true;
 	}
 	else
 	{
