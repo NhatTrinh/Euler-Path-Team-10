@@ -7,8 +7,9 @@ using namespace std;
 
 bool greetUser();
 void mainMenu();
-void mainMenuLoop(Euler<string> * &eulerGraph, bool & stopLoop);
+void mainMenuLoop(Euler<string> * eulerGraph, bool & stopLoop, ifstream & ifs);
 bool openInputFile(ifstream &ifs);
+void addGraphFromFile (ifstream &ifs);
 
 int main()
 {
@@ -16,19 +17,15 @@ int main()
 	Euler<string> * eulerGraph = new Euler<string>();
 	bool stopLoop = false;
 	ifstream ifs;
-	string inputData;
-	
-	while(!openInputFile)
-	{
-		cout << "Reenter the file name." << endl;
-	}
 	
 	if (!greetUser())
 		return 0;
 	while (stopLoop != true)
 	{
-		mainMenuLoop(eulerGraph,stopLoop);
+		mainMenuLoop(eulerGraph,stopLoop, ifs);
 	}
+	
+	ifs.close();
 	return 0;
 }
 
@@ -49,11 +46,13 @@ bool greetUser()
 }
 void mainMenu()
 {
-	cout << "1. Add a graph edge" << endl;
-	cout << "2. Remove a graph edge" << endl;
-	cout << "3. Solve the graph (Euler's Path)" << endl;
-	cout << "4. Write graph to file" << endl;
-	cout << "5. Quit the program" << endl;
+	cout << "1. Add graph from file" << endl;
+	cout << "2. Add a graph edge" << endl;
+	cout << "3. Remove a graph edge" << endl;
+	cout << "4. Solve the graph (Euler's Path)" << endl;
+	cout << "5. Write graph to file" << endl;
+	cout << "6. Write graph to file" << endl;
+	cout << "7. Quit the program" << endl;
 }
 
 bool openInputFile(ifstream &ifs)
@@ -67,19 +66,31 @@ bool openInputFile(ifstream &ifs)
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-void mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
+void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs)
 {
 	int choice = 0;
 
 	mainMenu();
 	string city1, city2;
 	int cityWeight;
+	string filename;
 	
 	cout << "Enter your menu option choice: ";
 	cin >> choice;
+	
 	switch (choice)
 	{
 	case 1:
+	{
+		while (!openInputFile(ifs))
+		{
+			cout << "Please Enter File Name Again." << endl;
+		}
+		addGraphFromFile (ifs);
+		break;
+	}
+	case 2:
+	{
 		cout << "Enter the first city name: ";			
 		cin >> city1;
 		cout << "Enter the second city name: ";
@@ -91,7 +102,9 @@ void mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 		else 
 			cout << "Did not work, try again" << endl;
 			break;
-	case 2:
+	}
+	case 3:
+	{
 		cout << "Enter the first city name: ";
 		cin >> city1;
 		cout << "Enter the second city name: ";
@@ -100,24 +113,57 @@ void mainMenuLoop(Euler<string> * &eulerGraph, bool & loopStop)
 			cout << "Edge successfully removed" << endl;
 		else 
 			cout << "Did not work, try again" << endl;
-			break;
-	case 3:		
+		break;
+	}
+	case 4:	
+	{
 		cout << "Checking if the graph is Euler..." << endl;
 		if (eulerGraph->isEuler())
 			cout << "The graph satisfies the Euler's condition" << endl;
 		else 
 			cout << "The graph does not satisfy the Euler's condition" << endl;
-			break;
-	case 4:
-			
+		break;
+	}
 	case 5:
+	{
+		cout << "Displaying the graph.." << endl;
+		break;
+	}
+	case 6:
+	{
+		ofstream outFile;
+		string filename;
+		
+		cout << "Name your output file(with file extension): ";
+		cin >> filename;
+		outFile.open(filename);
+		// do something here to write the graph to the file
+		outFile.close();
+	}
+	case 7:
+	{
 		cout << endl;
 		cout << "Thanks for using this program." << endl;
 		loopStop = true;
 		break;
-
+	}
 	default:
+	{
 		cout << "You have entered an invalid number, try again." << endl;
 		break;
 	}
+}
+
+void addGraphFromFile (ifstream &ifs)
+{
+	string city1;
+	string city2;
+	int edgeWeight;
+	
+	while (ifs >> start >> end >> edgeWeight)
+	{
+		eulerGraph->add(city1, city2, edgeWeight);
+	}
+}
+
 }
