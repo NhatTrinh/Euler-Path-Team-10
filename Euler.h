@@ -54,6 +54,7 @@ public:
 	bool add(LabelType start, LabelType end, int edgeWeight = 0);
 	bool remove(LabelType start, LabelType end);
 	bool findEulerPath();
+	bool executeFleury();
 };
 
 // class constructor with infile stream to populate the graph
