@@ -39,7 +39,7 @@ class Euler : public LinkedGraph<LabelType>
 
 private:
 	// Euler Tree
-	vector<LabelType> * eulerTree;
+	vector<LabelType> eulerTree;
 	// Method to check if all non-zero degree vertices are connected
 	bool isConnected();	
 
@@ -62,7 +62,6 @@ Euler::Euler()
 	LabelType start;
 	LabelType end;
 	int edgeWeight = 0;
-	eulerTree = new Euler<LabelType>;
 }
 
 // class destructor
@@ -120,16 +119,16 @@ bool Euler<LabelType>::isValidNextEdge(LabelType start, LabelType end)
 	// Do following steps to check if u-v is a bridge
 
 	// 2.a) count of vertices reachable from u
-	int count1 = eulerTree->getNumVertices();
+	int count1 = eulerTree.getNumVertices();
 
 	// 2.b) Remove edge (u, v) and after removing the edge, count
 	// vertices reachable from u
-	eulerTree->remove(start, end);
+	eulerTree.remove(start, end);
 
-	int count2 = eulerTree->getNumVertices();
+	int count2 = eulerTree.getNumVertices();
 
 	// 2.c) Add the edge back to the graph
-	eulerTree->add(start, end);
+	eulerTree.add(start, end);
 
 	// 2.d) If count1 is greater, then edge (u, v) is a bridge
 	return (count1 > count2) ? false : true;
