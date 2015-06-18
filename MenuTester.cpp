@@ -53,7 +53,7 @@ bool greetUser()
 	cout << "Type Y for YES or N for NO: ";
 	cin >> choice;
 
-	if (choice == "Y" || choice == "y")
+	if (choice == "Y" || choice == "y" || choice == "YES" || choice =="yes")
 		answer = true;
 	return answer;
 }
