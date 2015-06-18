@@ -17,7 +17,7 @@ struct EdgeInfo
 
 bool greetUser();
 void mainMenu();
-bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
+void mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
 bool openInputFile(ifstream &ifs);
 void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph);
 
@@ -29,10 +29,7 @@ int main()
 	
 	if (!greetUser())
 		return 0;
-	while (!mainMenuLoop(eulerGraph, ifs, removedInfo))
-	{
-		mainMenuLoop(eulerGraph, ifs, removedInfo);
-	}
+	mainMenuLoop(eulerGraph, ifs, removedInfo);
 	
 	ifs.close();
 	return 0;
@@ -71,14 +68,13 @@ bool openInputFile(ifstream &ifs)
 {
 	string filename;
 
-	cout << "Enter the input filename: ";
 	getline(cin, filename);
-    ifs.open(filename.c_str());
+	ifs.open(filename.c_str());
 	return ifs.is_open();
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
+void mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
 {
     bool _switch = false;
     string numChoice;
@@ -89,16 +85,20 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
 	
 	cout << "Enter your menu option choice: ";
 	cin >> numChoice;
-	
-    if (numChoice == "1")
-    {
-        while (!openInputFile(ifs))
-        {
-            cout << "File not found. Re-enter: ";
-            continue;
-        }
-        addGraphFromFile(ifs, eulerGraph);
-    }
+	while (_switch == false)
+{
+	if (numChoice == "1")
+	{
+		cout << "Enter the input filename: ";
+		openInputFile(ifs);
+		while (!openInputFile(ifs))
+		{
+			cout << "File not found. Re-enter: \n";
+			continue;
+		}
+		cout << "Reading complete!\n";
+		addGraphFromFile(ifs, eulerGraph);
+	}
 
     else if (numChoice == "2")
     {
@@ -198,8 +198,8 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
         cout << "You have entered an invalid number, try again." << endl;
         cout << endl;
     }
-    
-    return _switch;
+   
+}
 }
 
 void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph)
