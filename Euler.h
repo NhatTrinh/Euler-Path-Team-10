@@ -38,9 +38,9 @@ class Euler : public LinkedGraph<LabelType>
 
 private:
 	// Euler Tree
-	vector<LabelType> eulerTree;
+	vector<EulerEdge<LabelType>> eulerTree;
 	// Linked Stack to reverse changes
-	LinkedStack<EulerEdge> reverseFleury;
+	LinkedStack<EulerEdge<LabelType>> reverseFleury;
 	// Method to check if all non-zero degree vertices are connected
 	bool isConnected();	
 
@@ -70,7 +70,7 @@ Euler<LabelType>::Euler()
 template <class LabelType>
 Euler<LabelType>::~Euler()
 {
-	delete eulerTree;
+//	delete eulerTree;
 }
 
 template <class LabelType>
@@ -78,8 +78,8 @@ bool Euler<LabelType>::add(LabelType start, LabelType end, int edgeWeight = 0)
 	{
 		if (LinkedGraph<LabelType>::add(start, end, edgeWeight))
 		{
-			Edge<LabelType> edge(end, edgeWeight);
-			EulerEdge<LabelType> newEdge(start, edge);
+			Edge<LabelType> tempedge(end, edgeWeight);
+			EulerEdge<LabelType> newEdge(start, tempedge);
 			eulerTree.push_back(newEdge);
 			return true;
 		}
@@ -148,9 +148,9 @@ bool Euler<LabelType>::isEuler()
 
 	// Count vertices with odd degree
 	int odd = 0;
-	for (int i = 0; i < eulerTree->getNumVertices(); i++)
+	for (int i = 0; i < eulerTree.getNumVertices(); i++)
 	{
-		if (eulerTree[i].size() % 2 == 1)
+		if (eulerTree.getNumVertices() % 2 == 1)
 			odd++;
 	}
 
