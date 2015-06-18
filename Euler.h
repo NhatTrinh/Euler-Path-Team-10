@@ -48,7 +48,7 @@ private:
 	bool isValidNextEdge(LabelType a, LabelType b);
 public:
 	Euler();
-	~Euler(){}
+	~Euler();
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
 	bool add(LabelType start, LabelType end, int edgeWeight = 0);
