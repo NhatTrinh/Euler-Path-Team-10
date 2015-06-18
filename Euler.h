@@ -92,10 +92,12 @@ bool Euler<LabelType>::remove(LabelType start, LabelType end)
 	{
 		LabelType end1 = i->getStart();
 		LabelType end2 = i->getEnd();
-		if (start == end1 && end == end2 || start == end2 && end == end1){
+		if (start == end1 && end == end2 || start == end2 && end == end1)
+		{
 			eulerTree.erase(i);
 			break;
 		}
+	}
 		return LinkedGraph<LabelType>::remove(start, end);
 }
 
