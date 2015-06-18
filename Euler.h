@@ -10,7 +10,6 @@
 #include "Vertex.h"
 #include "LinkedStack.h"
 
-
 using namespace std;
 
 template <class LabelType>
