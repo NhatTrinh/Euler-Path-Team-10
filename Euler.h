@@ -58,7 +58,7 @@ public:
 
 // class constructor with infile stream to populate the graph
 template <class LabelType>
-Euler::Euler()
+Euler<LabelType>::Euler()
 {
 	LabelType start;
 	LabelType end;
@@ -67,7 +67,7 @@ Euler::Euler()
 
 // class destructor
 template <class LabelType>
-Euler::~Euler()
+Euler<LabelType>::~Euler()
 {
 	delete eulerTree;
 }
