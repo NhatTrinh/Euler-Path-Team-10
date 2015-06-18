@@ -17,7 +17,7 @@ struct EdgeInfo
 
 bool greetUser();
 void mainMenu();
-void mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
+bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
 bool openInputFile(ifstream &ifs);
 void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph);
 
@@ -74,7 +74,7 @@ bool openInputFile(ifstream &ifs)
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-void mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
+bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
 {
     bool _switch = false;
     string numChoice;
@@ -198,7 +198,7 @@ void mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
         cout << "You have entered an invalid number, try again." << endl;
         cout << endl;
     }
-   
+   return _switch;
 }
 }
 
