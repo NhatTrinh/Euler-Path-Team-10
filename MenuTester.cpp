@@ -176,7 +176,7 @@ void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs, L
                 cout << "Name your output file(with file extension): ";
                 cin >> outfilename;
                 outFile.open(outfilename);
-                // do something here to write the graph to the file
+                eulerGraph->graphToText(outFile);
                 outFile.close();
             }
             cout << endl;

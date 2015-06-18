@@ -274,7 +274,7 @@ void LinkedGraph<LabelType>::graphToText(ostream & os)
         LabelType neighbor = loopVertex->getNextNeighbor();
         while (neighbor != currentLabel) {
             int weight = loopVertex->getEdgeWeight(neighbor);
-            cout << currentLabel << ", " << neighbor << ", " << weight << endl;
+            os << currentLabel << ", " << neighbor << ", " << weight << endl;
             neighbor = loopVertex->getNextNeighbor();
         }
     }  // end while
