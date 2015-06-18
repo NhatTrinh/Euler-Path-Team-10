@@ -56,7 +56,8 @@ bool greetUser()
 }
 void mainMenu()
 {
-	cout << "1. Add graph from file" << endl;
+    cout << endl;
+    cout << "1. Add graph from file" << endl;
 	cout << "2. Add a graph edge" << endl;
 	cout << "3. Remove a graph edge" << endl;
     cout << "4. Restore the last removed edge" << endl;
@@ -64,6 +65,7 @@ void mainMenu()
 	cout << "6. Display the Graph" << endl;
 	cout << "7. Write graph to file" << endl;
 	cout << "8. Quit the program" << endl;
+    cout << endl;
 }
 
 bool openInputFile(ifstream &ifs)
@@ -106,6 +108,7 @@ void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs, L
             cin >> city2;
             cout << "Enter the weight of the edge: ";
             cin >> cityWeight;
+            cout << endl;
             
             if (eulerGraph->add(city1, city2, cityWeight))
                 cout << "Edge successfully added" << endl;
@@ -118,6 +121,7 @@ void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs, L
             cin >> city1;
             cout << "Enter the second city name: ";
             cin >> city2;
+            cout << endl;
             
             cityWeight = eulerGraph->getEdgeWeight(city1, city2);
             removedInfo->push(new EdgeInfo(city1, city2, cityWeight));
@@ -143,7 +147,8 @@ void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs, L
                 else
                     cout << "There's no removed edge to recover" << endl;
             }
-                break;
+            cout << endl;
+            break;
             
         case 5:
             {
@@ -153,12 +158,14 @@ void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs, L
                 else
                     cout << "The graph does not satisfy the Euler's condition" << endl;
             }
-                break;
+            cout << endl;
+            break;
         case 6:
             {
                 cout << "Displaying the graph.." << endl;
                 eulerGraph->graphToText(cout);
             }
+            cout << endl;
             break;
         
         case 7:
@@ -172,16 +179,19 @@ void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs, L
                 // do something here to write the graph to the file
                 outFile.close();
             }
+            cout << endl;
             break;
         
         case 8:
             cout << endl;
             cout << "Thanks for using this program." << endl;
             loopStop = true;
+            cout << endl;
             break;
         
         default:
             cout << "You have entered an invalid number, try again." << endl;
+            cout << endl;
             break;
     }
     

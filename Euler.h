@@ -16,7 +16,7 @@ template <class LabelType>
 class Euler : public LinkedGraph<LabelType>
 {
 private:
-    void visit(LabelType &);
+    static void visit(LabelType &);
 public:
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
@@ -24,10 +24,7 @@ public:
 };
 
 template <class LabelType>
-void Euler<LabelType>::visit(LabelType & label)
-{
-    this->vertices.getItem(label)->visit();
-}
+void Euler<LabelType>::visit(LabelType & label) {}
 
 template <class LabelType>
 bool Euler<LabelType>::isEuler()
@@ -82,17 +79,22 @@ bool Euler<LabelType>::isConnected()
     this->unvisitVertices();
 
 	// Find a vertex with non-zero degree to start the traversal
-    Vertex<LabelType> * startVertex;
+    Vertex<LabelType> * startVertex = NULL;
     DACmapIterator<LabelType, Vertex<LabelType>*> * iter = this->vertices.iterator();
     while (iter->hasNext()) {
         startVertex = iter->next();
         if (startVertex->getNumberOfNeighbors() > 0) break;
     }
 
-
 	// Start DFS traversal from a vertex with non-zero degree
-    // this->depthFirstTraversalHelper(startVertex, visit);
+    this->depthFirstTraversalHelper(startVertex, visit);
 
 	// Check if all non-zero degree vertices are visited
+    Vertex<LabelType> * v;
+    iter = this->vertices.iterator();
+    while (iter->hasNext()) {
+        v = iter->next();
+        if (v->getNumberOfNeighbors() > 0 && !v->isVisited()) return false;
+    }
     return true;
 }
