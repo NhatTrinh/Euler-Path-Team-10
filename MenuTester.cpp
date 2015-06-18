@@ -17,7 +17,7 @@ struct EdgeInfo
 
 bool greetUser();
 void mainMenu();
-void mainMenuLoop(Euler<string> * eulerGraph, bool & stopLoop, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
+bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
 bool openInputFile(ifstream &ifs);
 void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph);
 
@@ -25,14 +25,13 @@ int main()
 {
 	Euler<string> * eulerGraph = new Euler<string>();
     LinkedStack<EdgeInfo *> * removedInfo = new LinkedStack<EdgeInfo *>();
-	bool stopLoop = false;
 	ifstream ifs;
 	
 	if (!greetUser())
 		return 0;
-	while (stopLoop != true)
+	while (!mainMenuLoop(eulerGraph, ifs, removedInfo))
 	{
-		mainMenuLoop(eulerGraph, stopLoop, ifs, removedInfo);
+		mainMenuLoop(eulerGraph, ifs, removedInfo);
 	}
 	
 	ifs.close();
@@ -74,127 +73,133 @@ bool openInputFile(ifstream &ifs)
 
 	cout << "Enter the input filename: ";
 	getline(cin, filename);
-	ifs.open(filename.c_str());
+    ifs.open(filename.c_str());
 	return ifs.is_open();
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
+bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
 {
-	int choice = 0;
+    bool _switch = false;
+    string numChoice;
 
 	mainMenu();
 	string city1, city2;
 	int cityWeight;
-	string filename;
 	
 	cout << "Enter your menu option choice: ";
-	cin >> choice;
+	cin >> numChoice;
 	
-	switch (choice)
-	{
-        case 1:
-            while (!openInputFile(ifs))
-            {
-                cout << "Please Enter File Name Again." << endl;
-            }
-            addGraphFromFile(ifs, eulerGraph);
-            break;
+    if (numChoice == "1")
+    {
+        while (!openInputFile(ifs))
+        {
+            cout << "File not found. Re-enter: ";
+            continue;
+        }
+        addGraphFromFile(ifs, eulerGraph);
+    }
 
-        case 2:
-            cout << "Enter the first city name: ";
-            cin >> city1;
-            cout << "Enter the second city name: ";
-            cin >> city2;
-            cout << "Enter the weight of the edge: ";
-            cin >> cityWeight;
-            cout << endl;
-            
-            if (eulerGraph->add(city1, city2, cityWeight))
-                cout << "Edge successfully added" << endl;
-            else 
-                cout << "Did not work, try again" << endl;
-            break;
+    else if (numChoice == "2")
+    {
+        cout << "Enter the first city name: ";
+        cin >> city1;
+        cout << "Enter the second city name: ";
+        cin >> city2;
+        cout << "Enter the weight of the edge: ";
+        cin >> cityWeight;
+        cout << endl;
         
-        case 3:
-            cout << "Enter the first city name: ";
-            cin >> city1;
-            cout << "Enter the second city name: ";
-            cin >> city2;
-            cout << endl;
-            
-            cityWeight = eulerGraph->getEdgeWeight(city1, city2);
-            removedInfo->push(new EdgeInfo(city1, city2, cityWeight));
-            
-            if (eulerGraph->remove(city1, city2))
-                cout << "Edge successfully removed" << endl;
-            else 
-                cout << "Did not work, try again" << endl;
-            break;
-        
-        case 4:
-            {
-                if (!removedInfo->isEmpty())
-                {
-                    EdgeInfo * temp = removedInfo->peek();
-                    removedInfo->pop();
-                
-                    if (eulerGraph->add(temp->city1, temp->city2, temp->edgeweight))
-                        cout << "Edge successfully restored" << endl;
-                    else
-                        cout << "Edge restoration failed" << endl;
-                }
-                else
-                    cout << "There's no removed edge to recover" << endl;
-            }
-            cout << endl;
-            break;
-            
-        case 5:
-            {
-                cout << "Checking if the graph is Euler..." << endl;
-                if (eulerGraph->isEuler())
-                    cout << "The graph satisfies the Euler's condition" << endl;
-                else
-                    cout << "The graph does not satisfy the Euler's condition" << endl;
-            }
-            cout << endl;
-            break;
-        case 6:
-            {
-                cout << "Displaying the graph.." << endl;
-                eulerGraph->graphToText(cout);
-            }
-            cout << endl;
-            break;
-        
-        case 7:
-            {
-                ofstream outFile;
-                string outfilename;
-            
-                cout << "Name your output file(with file extension): ";
-                cin >> outfilename;
-                outFile.open(outfilename);
-                eulerGraph->graphToText(outFile);
-                outFile.close();
-            }
-            cout << endl;
-            break;
-        
-        case 8:
-            cout << endl;
-            cout << "Thanks for using this program." << endl;
-            loopStop = true;
-            cout << endl;
-            break;
-        
-        default:
-            cout << "You have entered an invalid number, try again." << endl;
-            cout << endl;
-            break;
+        if (eulerGraph->add(city1, city2, cityWeight))
+            cout << "Edge successfully added" << endl;
+        else
+            cout << "Did not work, try again" << endl;
     }
     
+    else if (numChoice == "3")
+    {
+        cout << "Enter the first city name: ";
+        cin >> city1;
+        cout << "Enter the second city name: ";
+        cin >> city2;
+        cout << endl;
+            
+        cityWeight = eulerGraph->getEdgeWeight(city1, city2);
+        removedInfo->push(new EdgeInfo(city1, city2, cityWeight));
+        
+        if (eulerGraph->remove(city1, city2))
+            cout << "Edge successfully removed" << endl;
+        else
+            cout << "Did not work, try again" << endl;
+    }
+    
+    else if (numChoice == "4")
+    {
+            if (!removedInfo->isEmpty())
+            {
+                EdgeInfo * temp = removedInfo->peek();
+                removedInfo->pop();
+            
+                if (eulerGraph->add(temp->city1, temp->city2, temp->edgeweight))
+                    cout << "Edge successfully restored" << endl;
+                else
+                    cout << "Edge restoration failed" << endl;
+            }
+            else
+                cout << "There's no removed edge to recover" << endl;
+        
+            cout << endl;
+    }
+    
+    else if (numChoice == "5")
+    {
+        cout << "Checking if the graph is Euler..." << endl;
+        cout << endl;
+        if (eulerGraph->isEuler())
+            cout << "The graph satisfies the Euler's condition" << endl;
+        else
+            cout << "The graph does not satisfy the Euler's condition" << endl;
+        cout << endl;
+    }
+
+    else if (numChoice == "6")
+    {
+        cout << endl;
+        cout << "Displaying the graph.." << endl;
+        eulerGraph->graphToText(cout);
+        cout << endl;
+    }
+
+    
+    else if (numChoice == "7")
+    {
+        ofstream outFile;
+        string outfilename;
+    
+        cout << "Name your output file(with file extension): ";
+        getline(cin, outfilename);
+        outFile.open(outfilename);
+        eulerGraph->graphToText(outFile);
+        outFile.close();
+
+        cout << endl;
+    }
+        
+    else if (numChoice == "8")
+    {
+        cout << endl;
+        cout << "Thanks for using this program." << endl;
+        _switch = true;
+        cout << endl;
+    }
+        
+    else
+    {
+        cout << "You have entered an invalid number, try again." << endl;
+        cout << endl;
+    }
+    
+    return _switch;
 }
 
 void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph)
@@ -203,8 +208,12 @@ void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph)
 	string end;
 	int edgeWeight;
 	
-	while (ifs >> start >> end >> edgeWeight)
+	while (ifs)
 	{
-		eulerGraph->add(start, end, edgeWeight);
+        ifs >> start >> end >> edgeWeight;
+        if (ifs.eof())
+            break;
+        else
+            eulerGraph->add(start, end, edgeWeight);
 	}
 }

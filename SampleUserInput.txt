@@ -1,8 +1,8 @@
-Cupertino, San Jose, 15
-Cupertino, Campbell, 10
-Campbell, San Jose, 10
-Santa Clara, San Jose, 5
-Santa Clara, Campbell, 5
-San Jose, Milpitas, 5
-Milpitas, Fremont, 5
-Fremont, Oakland, 20
+Cupertino SanJose 15
+Cupertino Campbell 10
+Campbell SanJose 10
+SantaClara SanJose 5
+SantaClara Campbell 5
+SanJose Milpitas 5
+Milpitas Fremont 5
+Fremont Oakland 20
