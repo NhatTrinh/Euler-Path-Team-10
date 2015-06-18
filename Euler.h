@@ -39,18 +39,17 @@ class Euler : public LinkedGraph<LabelType>
 
 private:
 	// Euler Tree
-	vector<LabelType> Eulertree;
+	vector<LabelType> * eulerTree;
 	// Method to check if all non-zero degree vertices are connected
 	bool isConnected();	
 
 	// key step, use this to find the path of Fleury’s Algorithm    
 	bool isValidNextEdge(LabelType a, LabelType b);
 public:
-	Euler(bool openInputFile(ifstream &ifs);
+	Euler();
 	~Euler(){}
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
-
 	bool add(LabelType start, LabelType end, int edgeWeight = 0);
 	bool remove(LabelType start, LabelType end);
 	bool findEulerPath();
@@ -58,14 +57,21 @@ public:
 
 // class constructor with infile stream to populate the graph
 template <class LabelType>
-Euler::Euler(bool openInputFile(ifstream &ifs))
+Euler::Euler()
 {
 	LabelType start;
 	LabelType end;
 	int edgeWeight = 0;
-	
-	
+	eulerTree = new Euler<LabelType>;
 }
+
+// class destructor
+template <class LabelType>
+Euler::~Euler()
+{
+	delete eulerTree;
+}
+
 template <class LabelType>
 bool Euler<LabelType>::add(LabelType start, LabelType end, int edgeWeight = 0)
 	{
@@ -73,7 +79,7 @@ bool Euler<LabelType>::add(LabelType start, LabelType end, int edgeWeight = 0)
 		{
 			Edge<LabelType> edge(end, edgeWeight);
 			EulerEdge<LabelType> newEdge(start, edge);
-			Eulertree.push_back(newEdge);
+			eulerTree.push_back(newEdge);
 			return true;
 		}
 		return false;
@@ -82,12 +88,12 @@ template <class LabelType>
 bool Euler<LabelType>::remove(LabelType start, LabelType end)
 {
 	vector<EulerEdge<LabelType>>::iterator i;
-	for (i = Eulertree.begin(); i != Eulertree.end(); ++i)
+	for (i = eulerTree.begin(); i != eulerTree.end(); ++i)
 	{
 		LabelType end1 = i->getStart();
 		LabelType end2 = i->getEnd();
 		if (start == end1 && end == end2 || start == end2 && end == end1){
-			Eulertree.erase(i);
+			eulerTree.erase(i);
 			break;
 		}
 		return LinkedGraph<LabelType>::remove(start, end);
@@ -103,7 +109,7 @@ bool Euler<LabelType>::isValidNextEdge(LabelType start, LabelType end)
 	int count = 0;  // To store count of adjacent vertices
 	vector<EulerEdge<LabelType>>::iterator i;
 	//list<int>::iterator i;
-	for (i = Eulertree[start].begin(); i != Eulertree[start].end(); ++i)
+	for (i = eulerTree[start].begin(); i != eulerTree[start].end(); ++i)
 		if (*i != -1)
 			count++;
 	if (count == 1)
@@ -114,16 +120,16 @@ bool Euler<LabelType>::isValidNextEdge(LabelType start, LabelType end)
 	// Do following steps to check if u-v is a bridge
 
 	// 2.a) count of vertices reachable from u
-	int count1 = EulerTree->getNumVertices();
+	int count1 = eulerTree->getNumVertices();
 
 	// 2.b) Remove edge (u, v) and after removing the edge, count
 	// vertices reachable from u
-	Eulertree->remove(start, end);
+	eulerTree->remove(start, end);
 
-	int count2 = EulerTree->getNumVertices();
+	int count2 = eulerTree->getNumVertices();
 
 	// 2.c) Add the edge back to the graph
-	Eulertree->add(start, end);
+	eulerTree->add(start, end);
 
 	// 2.d) If count1 is greater, then edge (u, v) is a bridge
 	return (count1 > count2) ? false : true;
@@ -139,12 +145,10 @@ bool Euler<LabelType>::isEuler()
 
 	// Count vertices with odd degree
 	int odd = 0;
-	for (int i = 0; i < Eulertree->getNumVertices(); i++)
+	for (int i = 0; i < eulerTree->getNumVertices(); i++)
 	{
-		if (Eulertree[i].size() % 2 == 1)
-		{
+		if (eulerTree[i].size() % 2 == 1)
 			odd++;
-		}
 	}
 
 	// If count is more than 2, then graph is not Eulerian
@@ -163,9 +167,7 @@ bool Euler<LabelType>::isEuler()
 		checkEulerian = true;
 	}
 	else
-	{
 		cout << "There are NO Eulerian paths or circuits available in this graph." << endl;
-	}
 	
 	return checkEulerian;
 }
@@ -173,24 +175,25 @@ bool Euler<LabelType>::isEuler()
 template <class LabelType>
 bool Euler<LabelType>::isConnected()
 {
+	int i;
 	// Mark all the vertices as not visited
-	Eulertree->unvisitVertices();
+	eulerTree->unvisitVertices();
 
 	// Find a vertex with non-zero degree
-	for (i = 0; i < Eulertree->getNumVertices(); i++)
-		if (Eulertree[i].size() != 0)
+	for (i = 0; i < eulerTree->getNumVertices(); i++)
+		if (eulerTree[i].size() != 0)
 			break;
 
 	// If there are no edges in the graph, return true
-	if (i == Eulertree->getNumVertices())
+	if (i == eulerTree->getNumVertices())
 		return true;
 
 	// Start DFS traversal from a vertex with non-zero degree
 //	DFSUtil(i, visited);
 
 	// Check if all non-zero degree vertices are visited
-	for (i = 0; i < Eulertree->getNumVertices(); i++)
-		if (Eulertree[i]->isVisited() == false && Eulertree[i].size() > 0)
+	for (i = 0; i < eulerTree->getNumVertices(); i++)
+		if (eulerTree[i]->isVisited() == false && eulerTree[i].size() > 0)
 			return false;
 
 	return true;
