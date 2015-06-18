@@ -17,7 +17,7 @@ class Euler : public LinkedGraph<LabelType>
 {
 	// nested class Euler Edge, data to connect one vertice to another
 	template <class LabelType>
-	class EulerEdge
+	class EulerEdge 
 	{
 	private:
 		LabelType startpoint;
@@ -39,6 +39,8 @@ class Euler : public LinkedGraph<LabelType>
 private:
 	// Euler Tree
 	vector<LabelType> eulerTree;
+	// Linked Stack to reverse changes
+	LinkedStack<EulerEdge> reverseFleury;
 	// Method to check if all non-zero degree vertices are connected
 	bool isConnected();	
 
@@ -197,7 +199,11 @@ bool Euler<LabelType>::isConnected()
 	return true;
 }
 
-bool Euler<LabelType>::findEulerPath()
+bool Euler<LabelType>::executeFleury()
 {
+	// check if reverseFleury is empty
+	// if not clear it 
+	if (!reverseFleury.isEmpty())
+		reverseFleury.clear();
 	
 }
