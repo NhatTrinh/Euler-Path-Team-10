@@ -152,6 +152,7 @@ void mainMenuLoop(Euler<string> * eulerGraph, bool & loopStop, ifstream & ifs)
 		cout << "You have entered an invalid number, try again." << endl;
 		break;
 	}
+    }
 }
 
 void addGraphFromFile (ifstream &ifs)
@@ -166,4 +167,3 @@ void addGraphFromFile (ifstream &ifs)
 	}
 }
 
-}
