@@ -199,11 +199,24 @@ bool Euler<LabelType>::isConnected()
 	return true;
 }
 
+template <class LabelType>
 bool Euler<LabelType>::executeFleury()
 {
 	// check if reverseFleury is empty
 	// if not clear it 
 	if (!reverseFleury.isEmpty())
 		reverseFleury.clear();
+	// iterate through the tree and find the vertex with an odd number of edges
+	// choose it as a starting point
 	
+	EulerEdge<LabelType> startingEdge;
+	for (unsigned int i = 0; i < eulerTree.size(); i++)
+	{
+		if (eulerTree[i]->getNumberOfNeighbors() % 2 != 0)
+		{
+			startingEdge = eulerTree[i];
+			break;
+		}
+	}
+
 }
