@@ -24,7 +24,8 @@ public:
     bool isConnected();
     void DFSutil();
     void BFSutil();
-    bool nextEdgeOk(LabelType start, LabelType end)
+    bool nextEdgeOk(LabelType start, LabelType end);
+    void printEulerTour();
 };
 
 template <class LabelType>
@@ -154,4 +155,19 @@ bool Euler<LabelType>::nextEdgeOk(LabelType start, LabelType end)
 	// If adjacentCount is greater than adjCountRemove, then edge (start, end) is a bridge
 	if (adjacentCount > adjCountRemove)
 		return true;
+}
+
+template <class LabelType>
+void Euler<LabelType>::printEulerTour()
+{
+	// Find a vertex with odd degree
+	Vertex<LabelType> * startVertex;
+	DACmapIterator<LabelType, Vertex<LabelType>*> * iter = this->vertices.iterator();
+	while (iter->hasNext()) {
+		startVertex = iter->next();
+		if (startVertex->getNumberOfNeighbors() & 1) break;
+	}
+	// Print tour starting from oddv
+	printEulerUtil(startVertex);
+	cout << endl;
 }
