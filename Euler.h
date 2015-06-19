@@ -171,3 +171,20 @@ void Euler<LabelType>::printEulerTour()
 	printEulerUtil(startVertex);
 	cout << endl;
 }
+
+template <class LabelType>
+void Euler<LabelType>::printEulerUtil(Vertex<LabelType> *startVertex)
+{
+	// Recur for all the vertices adjacent to this vertex
+	Edge<LabelType> *edge;
+	DACmapIterator<LabelType, Edge<LabelType>> *iter = startVertex->adjacentIterator;
+	while (iter->hasNext()) {
+		edge = iter->next();
+		Vertex<LabelType> *endVertex = this->findOrCreateVertex(edge->getEndVertex());
+		if (nextEdgeOk(startVertex, endVertex)){
+			cout << startVertex->getLabel() << "-" << endVertex->getLabel() << "-";
+			this->remove(startVertex, endVertex);
+			printEulerUtil(endVertex);
+		}
+	}
+}
