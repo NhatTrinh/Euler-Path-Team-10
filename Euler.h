@@ -25,6 +25,7 @@ public:
     void DFSutil();
     void BFSutil();
     bool nextEdgeOk(LabelType start, LabelType end);
+    void printEulerUtil(Vertex<LabelType> * startVertex);
     void printEulerTour();
 };
 
