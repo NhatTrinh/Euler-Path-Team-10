@@ -137,6 +137,7 @@ bool Euler<LabelType>::nextEdgeOk(LabelType start, LabelType end)
 	// The edge start-end is valid in one of the following two cases:
 	int adjacentCount = startVertex->getNumberOfNeighbors();
 	int adjCountRemove = 0;
+	int edgeWeight = getEdgeWeight(start, end);
 	//  If v is the only adjacent vertex of u
 	if (adjacentCount == 1)
 		return true;
@@ -149,7 +150,7 @@ bool Euler<LabelType>::nextEdgeOk(LabelType start, LabelType end)
 	// count vertices reachable from start
 	adjCountRemove = startVertex->getNumberOfNeighbors();
 	// Add the edge back to the graph
-	add(start, end, 0);
+	add(start, end, edgeWeight);
 	// If adjacentCount is greater than adjCountRemove, then edge (start, end) is a bridge
 	if (adjacentCount > adjCountRemove)
 		return true;
