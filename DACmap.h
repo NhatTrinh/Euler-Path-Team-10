@@ -37,9 +37,11 @@ class DACmap
 {
 private:
 	map<KeyType, ItemType> dacMap;
-	DACmapIterator<KeyType, ItemType> *thisIterator;// init. to 0
+//protected:
+	
 
 public:
+	DACmapIterator<KeyType, ItemType> *thisIterator;// init. to 0
 	DACmap(){ thisIterator = 0; }
 	DACmap(const DACmap &source){ dacMap = source.dacMap; thisIterator = 0; } // UPDATED
 	~DACmap(){ if (thisIterator != 0) delete thisIterator; thisIterator = 0; }
