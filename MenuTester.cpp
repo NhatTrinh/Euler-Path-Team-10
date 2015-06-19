@@ -17,7 +17,7 @@ struct EdgeInfo
 
 bool greetUser();
 void mainMenu();
-bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
+void mainMenuLoop(bool &trigger,Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo*> *removedInfo);
 bool openInputFile(ifstream &ifs);
 void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph);
 
@@ -26,16 +26,17 @@ int main()
     Euler<string> * eulerGraph = new Euler<string>();
     LinkedStack<EdgeInfo *> * removedInfo = new LinkedStack<EdgeInfo *>();
     ifstream ifs;
-    
+	bool trigger = false;
+
     if (!greetUser())
     {
         cout << "Good Bye!" << endl;
         return 0;
     }
     
-    while (!mainMenuLoop(eulerGraph, ifs, removedInfo))
+    while (trigger == false)
     {
-        mainMenuLoop(eulerGraph, ifs, removedInfo);
+        mainMenuLoop(trigger,eulerGraph, ifs, removedInfo);
     }
 
     ifs.close();
@@ -76,14 +77,13 @@ bool openInputFile(ifstream &ifs)
 {
     string filename;
     
-    //	cout << "Enter the input filename: ";
     getline(cin, filename);
     ifs.open(filename.c_str());
     return ifs.is_open();
 }
 
 // this function takes in user input and checks for errors if the user did not enter in a correct number
-bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
+void mainMenuLoop(bool &trigger,Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeInfo *> * removedInfo)
 {
     bool _switch = false;
     string numChoice;
@@ -225,7 +225,7 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
     {
         cout << endl;
         cout << "Thanks for using this program." << endl;
-        _switch = true;
+		trigger = true;
         cout << endl;
     }
     
@@ -234,9 +234,6 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
         cout << "You have entered an invalid number, try again." << endl;
         cout << endl;
     }
-    
-    return _switch;
-
 }
 
 void addGraphFromFile(ifstream &ifs, Euler<string> * eulerGraph)
