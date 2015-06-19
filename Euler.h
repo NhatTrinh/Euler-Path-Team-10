@@ -17,14 +17,28 @@ class Euler : public LinkedGraph<LabelType>
 {
 private:
     static void visit(LabelType &);
+    static void os(LabelType &);
 public:
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
     bool isConnected();
+    void DFSutil();
+    void BFSutil();
 };
 
 template <class LabelType>
 void Euler<LabelType>::visit(LabelType & label) {}
+
+template <class LabelType>
+void Euler<LabelType>::os(LabelType & label)
+{
+    cout << endl;
+    cout << label << endl;
+    cout << endl;
+    cout << "|" << endl;
+    cout << "v" << endl;
+    cout << endl;
+}
 
 template <class LabelType>
 bool Euler<LabelType>::isEuler()
@@ -97,4 +111,22 @@ bool Euler<LabelType>::isConnected()
         if (v->getNumberOfNeighbors() > 0 && !v->isVisited()) return false;
     }
     return true;
+}
+
+template <class LabelType>
+void Euler<LabelType>::DFSutil()
+{
+    string city;
+    cout << "Enter the starting point: ";
+    cin >> city;
+    this->depthFirstTraversal(city, os);
+}
+
+template <class LabelType>
+void Euler<LabelType>::BFSutil()
+{
+    string city;
+    cout << "Enter the starting point: ";
+    cin >> city;
+    this->breadthFirstTraversal(city, os);
 }
