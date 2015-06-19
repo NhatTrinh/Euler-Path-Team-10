@@ -199,12 +199,13 @@ void mainMenuLoop(bool &trigger,Euler<string> * eulerGraph, ifstream & ifs, Link
     {
         cout << "Checking if the graph is Euler..." << endl;
         cout << endl;
-        if (eulerGraph->isEuler())
-        {
-        	cout << "The graph satisfies the Euler's condition" << endl;	
-        	eulerGraph->printEulerTour();
-        }
-           
+		if (eulerGraph->isEuler())
+		{
+			cout << "The graph satisfies the Euler's condition" << endl;
+			eulerGraph->printEulerTour();
+			cout << "do you want to store the path?\n";
+		}
+            
         else
             cout << "The graph does not satisfy the Euler's condition" << endl;
         cout << endl;
