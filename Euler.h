@@ -24,6 +24,7 @@ public:
     bool isConnected();
     void DFSutil();
     void BFSutil();
+    bool nextEdgeOk(LabelType start, LabelType end)
 };
 
 template <class LabelType>
@@ -129,4 +130,30 @@ void Euler<LabelType>::BFSutil()
     cout << "Enter the starting point: ";
     cin >> city;
     this->breadthFirstTraversal(city, os);
+}
+
+template <class LabelType>
+bool Euler<LabelType>::nextEdgeOk(LabelType start, LabelType end)
+{
+	Vertex<LabelType> * startVertex;
+	DACmapIterator<LabelType, Vertex<LabelType>*> * iter = this->vertices.iterator();
+	// The edge start-end is valid in one of the following two cases:
+	int adjacentCount = startVertex->getNumberOfNeighbors();
+	int adjCountRemove = 0;
+	//  If v is the only adjacent vertex of u
+	if (adjacentCount == 1)
+		return true;
+	// If there are multiple adjacents, then start-end is not a bridge
+	// Do following steps to check if start-end is a bridge
+	
+	// count of vertices reachable from start
+	// Remove edge (start, end) and after removing the edge
+	remove(start, end);
+	// count vertices reachable from start
+	adjCountRemove = startVertex->getNumberOfNeighbors();
+	// Add the edge back to the graph
+	add(start, end, 0);
+	// If adjacentCount is greater than adjCountRemove, then edge (start, end) is a bridge
+	if (adjacentCount > adjCountRemove)
+		return true;
 }
