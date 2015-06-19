@@ -36,9 +36,6 @@ void Euler<LabelType>::os(LabelType & label)
     cout << endl;
     cout << label << endl;
     cout << endl;
-    cout << "|" << endl;
-    cout << "v" << endl;
-    cout << endl;
 }
 
 template <class LabelType>
