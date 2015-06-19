@@ -15,6 +15,7 @@ class Euler : public LinkedGraph<LabelType>
 private:
 	static void visit(LabelType &);
 	static void os(LabelType &);
+
 public:
 	//This function is used to check if the graph makes a eulerian graph
 	bool isEuler();
@@ -25,7 +26,10 @@ public:
 	void setStartingVertex(LabelType & start, LabelType & end);
 };
 template <class LabelType>
-void Euler<LabelType>::visit(LabelType & label) {}
+void Euler<LabelType>::visit(LabelType & label) 
+{
+	
+}
 template <class LabelType>
 void Euler<LabelType>::os(LabelType & label)
 {
