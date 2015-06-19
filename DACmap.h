@@ -1,190 +1,119 @@
-//  Created by Frank M. Carrano and Tim Henry.
-//  Copyright (c) 2013 __Pearson Education__. All rights reserved.
-//  Modified by C. Lee-Klawender
+#pragma once
+#include <map>
+/*
+Written by C. Lee-Klawender
 
-/** @file Vertex.h */
+The DACmap is the type used in LinkedGraph and Vertex classes
 
-// This class does a lot of the work for the graph!
-
-#ifndef _VERTEX
-#define _VERTEX
-
-#include "Edge.h"
-
-// The following ADT choices can vary according to how you want
-// to implement the adjacency list, and they can be different from
-// those used in class Graph.
-#include "DACmap.h" // ADT for Adjacency List
-
+These classes wwere written so you don't have to understand how to use
+the C++ STL map nor its iterator, and has easy-to-use function for access
+*/
 using namespace std;
 
-template<class LabelType>
-class Vertex
+// Iterator to retrieve ONLY the ItemTypes in the order of the map
+// NOTE: IF YOUR PROJECT NEEDS TO ITERATE TO GET BOTH THE KEY AND THE ITEM,
+//     LET ME KNOW AND I'LL WRITE FUNCTIONS FOR THAT and show you how to use it
+template <class KeyType, class ItemType>
+class DACmapIterator
 {
 private:
-   LabelType vertexLabel;
-   bool      visited;  // True if the vertex is visited
-
-
- //  DACmapIterator<LabelType, Edge<LabelType> > *adjacentIterator;
-
-   // Helper method for finding a specific neighbor
-   int getNeighborPosition(const LabelType& neighborVertex) const;
+	map<KeyType, ItemType> *pdacMap;
+	typename map<KeyType, ItemType>::iterator mapIterator;
 
 public:
-   DACmap<LabelType, Edge<LabelType> >  adjacencyList;
-	DACmapIterator<LabelType, Edge<LabelType> > *adjacentIterator;
-   /** Creates an unvisited vertex, gives it a label, and clears its
-       adjacency list.
-       NOTE: A vertex must have a unique label that cannot be changed. */
-   Vertex(LabelType label);
+	DACmapIterator(map<KeyType, ItemType> *p){
+		pdacMap = p;
+		mapIterator = (pdacMap->begin());
 
-   /** @return  The label of this vertex. */
-   LabelType getLabel() const;
+	}
+	ItemType next(){ return (mapIterator++)->second; }
+	bool hasNext() const { return mapIterator != (pdacMap->end());  }
 
-   /** Marks this vertex as visited. */
-   void visit();
+};
 
-   /** Marks this vertex as not visited. */
-   void unvisit();
-
-   /** Returns the visited status of this vertex.
-    @return  True if the vertex has been visited, otherwise
-       returns false/ */
-   bool isVisited() const;
-
-   /** Adds an edge between this vertex and the given vertex.
-    @return  True if the connection is successful. */
-   bool connect(const LabelType& endVertex, const int edgeWeight = 0);
-
-   /** Removes the edge between this vertex and the given one.
-   @return  True if the removal is successful. */
-   bool disconnect(const LabelType& endVertex);
-
-   /** Gets the weight of the edge between this vertex and the given vertex.
-    @return  The edge weight. This value is zero for an unweighted graph and
-       is negative if the .edge does not exist */
-   int getEdgeWeight(const LabelType& endVertex) const;
-
-   /** Calculates how many neighbors this vertex has.
-    @return  The number of the vertex's neighbors. */
-   int getNumberOfNeighbors() const;
-
-   /** Sets current neighbor to first in adjacency list. */
-   void resetNeighbor();
-
-   /** Gets this vertex's next neighbor in the adjacency list.
-    @return  The label of the vertex's next neighbor. */
-   LabelType getNextNeighbor();
-
-   /** Sees whether this vertex is equal to another one.
-       Two vertices are equal if they have the same label. */
-   bool operator==(const Vertex<LabelType>& rightHandItem) const;
-}; // end Vertex
-
-template<class LabelType>
-Vertex<LabelType>::
-Vertex(LabelType label): vertexLabel(label), visited(false)
+// Just a map, but for easier use of a map (dictionary)
+template <class KeyType, class ItemType>
+class DACmap
 {
-	adjacentIterator = 0;
-}  // end constructor
+private:
+	map<KeyType, ItemType> dacMap;
+//protected:
+	
 
-template<class LabelType>
-LabelType Vertex<LabelType>::getLabel() const
+public:
+	DACmapIterator<KeyType, ItemType> *thisIterator;// init. to 0
+	DACmap(){ thisIterator = 0; }
+	DACmap(const DACmap &source){ dacMap = source.dacMap; thisIterator = 0; } // UPDATED
+	~DACmap(){ if (thisIterator != 0) delete thisIterator; thisIterator = 0; }
+
+	bool isEmpty() const { return dacMap.empty(); }
+	int getNumberOfItems() const { return dacMap.size(); }
+	bool add(const KeyType& searchKey, const ItemType& newItem);
+	bool remove(const KeyType& searchKey);
+
+	void clear();
+	ItemType getItem(const KeyType& searchKey) const ;
+	bool contains(const KeyType& searchKey) const;
+
+	/** Traverses the items in this dictionary in sorted search-key order
+	and calls a given client function once for each item. */
+	void traverse(void visit(ItemType&)) const;
+
+	// For iterator
+	DACmapIterator<KeyType, ItemType> *iterator();
+};
+
+template <class KeyType, class ItemType>
+bool DACmap<KeyType, ItemType>::add(const KeyType& searchKey, const ItemType& newItem)
 {
-   return vertexLabel;
-}  // end getLabel
+	if (contains(searchKey))
+		return false;
+	dacMap[searchKey] = newItem;
+	return true;
+}
 
-template<class LabelType>
-void Vertex<LabelType>::visit()
+template <class KeyType, class ItemType>
+bool DACmap<KeyType, ItemType>::remove(const KeyType& searchKey)
 {
-   visited = true;
-}  // end visit
+	return dacMap.erase(searchKey) == 1;
+}
 
-template<class LabelType>
-void Vertex<LabelType>::unvisit()
+template <class KeyType, class ItemType>
+void DACmap<KeyType, ItemType>::clear()
 {
-   visited = false;
-}  // end unvisit
+	dacMap.clear();
+	thisIterator = 0;
+}
 
-template<class LabelType>
-bool Vertex<LabelType>::isVisited() const
+template <class KeyType, class ItemType>
+ItemType DACmap<KeyType, ItemType>::getItem(const KeyType& searchKey) const
 {
-   return visited;
-}  // end isVisited
+	typename map<KeyType, ItemType>::const_iterator foundItem = dacMap.find(searchKey);
+	if (foundItem == dacMap.end() )
+		return ItemType();
+	return foundItem->second;
+}
 
-template<class LabelType>
-bool Vertex<LabelType>::connect(const LabelType& endVertex, const int edgeWeight)
+template <class KeyType, class ItemType>
+bool DACmap<KeyType, ItemType>::contains(const KeyType& searchKey) const
 {
-   Edge<LabelType> thisEdge(endVertex, edgeWeight);
-   return adjacencyList.add(endVertex, thisEdge);   
-}  // end connect
+	typename map<KeyType, ItemType>::const_iterator itemIter = dacMap.begin();
+	// CHANGE TO SEARCH IN A LOOP WITH ITERATOR?
+	for (; itemIter != dacMap.end(); ++itemIter)
+	{
+		if (itemIter->first == searchKey)
+		{
+			return true;
+		}
+	}
+	return false; //
+}
 
-template<class LabelType>
-bool Vertex<LabelType>::disconnect(const LabelType& endVertex)
+template <class KeyType, class ItemType>
+DACmapIterator<KeyType, ItemType> *DACmap<KeyType, ItemType>::iterator()
 {
-   return adjacencyList.remove(endVertex);      
-}  // end disconnect
-
-template<class LabelType>
-int Vertex<LabelType>::getEdgeWeight(const LabelType& endVertex) const
-{
-   int edgeWeight = -1;
-   Edge<LabelType> theEdge = adjacencyList.getItem(endVertex);
-   edgeWeight = theEdge.getWeight();
-
-   return edgeWeight;
-}  // end getEdgeWeight
-
-template<class LabelType>
-int Vertex<LabelType>::getNumberOfNeighbors() const
-{
-   return adjacencyList.getNumberOfItems(); 
-}  // end getNumberOfNeighbors
-
-template<class LabelType>
-void Vertex<LabelType>::resetNeighbor()
-{
-	adjacentIterator = adjacencyList.iterator();
-}  // end resetNeighbor
-
-template<class LabelType>
-LabelType Vertex<LabelType>::getNextNeighbor()
-{
-   if (adjacentIterator->hasNext())
-   {
-      LabelType thisNeighbor = (adjacentIterator->next()).getEndVertex();
-      return thisNeighbor;
-   }
-   else
-      return this->getLabel(); // Signal end of adjacency list
-}  // end getNextNeighbor
-
-template<class LabelType>
-bool Vertex<LabelType>::operator==(const Vertex<LabelType>& rightHandItem) const
-{
-   return (vertexLabel == rightHandItem.vertexLabel);
-}  // end operator==
-
-template<class LabelType>
-int Vertex<LabelType>::getNeighborPosition(const LabelType& neighborVertex) const
-{
-   int position = 0;
-   int length = adjacencyList.getLength();
-   bool foundNeighbor = false;
-
-   while ( (position < length) &&  !foundNeighbor)
-   {
-      position++;
-      Edge<LabelType> currentEdge = adjacencyList.getEntry(position);
-      foundNeighbor = (neighborVertex == currentEdge.getLabel());
-   }  // end while
-
-   if ( (position > length) || (!foundNeighbor) )
-      position = -position;
-
-   return position;
-}  // end getNeighborPosition
-
-
-#endif
+	if (thisIterator != 0)
+		delete thisIterator;
+	thisIterator = new DACmapIterator<KeyType, ItemType>(&dacMap);
+	return thisIterator;
+}
