@@ -64,10 +64,11 @@ void mainMenu()
     cout << "2. Add a graph edge" << endl;
     cout << "3. Remove a graph edge" << endl;
     cout << "4. Restore the last removed edge" << endl;
-    cout << "5. Solve the graph (Euler's Path)" << endl;
+    cout << "5. Overview the Current Map" << endl;
     cout << "6. Display the Graph" << endl;
-    cout << "7. Write graph to file" << endl;
-    cout << "8. Quit the program" << endl;
+    cout << "7. Solve the graph (Euler's Path)" << endl;
+    cout << "8. Write graph to file" << endl;
+    cout << "9. Quit the program" << endl;
     cout << endl;
 }
 
@@ -86,7 +87,7 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
 {
     bool _switch = false;
     string numChoice;
-    
+        
     mainMenu();
     string city1, city2;
     int cityWeight;
@@ -160,6 +161,42 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
     
     else if (numChoice == "5")
     {
+        cout << endl;
+        cout << "Here's our Map Overview..." << endl;
+        cout << endl;
+        eulerGraph->graphToText(cout);
+        cout << endl;
+    }
+    
+    else if (numChoice == "6")
+    {
+        string method;
+        cout << endl;
+        cout << "Choose between DFS (type D or d) vs BFS (type B or b); ";
+        cin >> method;
+        cout << endl;
+        cout << "Displaying the graph.." << endl;
+        
+        if (method == "D" || method == "d")
+        {
+            cout << endl;
+            cout << "Displaying the graph in DFS mode...";
+            cout << endl;
+            eulerGraph->DFSutil();
+        }
+
+        else if (method == "B" || method == "b")
+        {
+            cout << endl;
+            cout << "Displaying the graph in BFS mode...";
+            cout << endl;
+            eulerGraph->BFSutil();
+        }
+        cout << endl;
+    }
+    
+    else if (numChoice == "7")
+    {
         cout << "Checking if the graph is Euler..." << endl;
         cout << endl;
         if (eulerGraph->isEuler())
@@ -168,17 +205,8 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
             cout << "The graph does not satisfy the Euler's condition" << endl;
         cout << endl;
     }
-    
-    else if (numChoice == "6")
-    {
-        cout << endl;
-        cout << "Displaying the graph.." << endl;
-        eulerGraph->graphToText(cout);
-        cout << endl;
-    }
-    
-    
-    else if (numChoice == "7")
+
+    else if (numChoice == "8")
     {
         ofstream outFile;
         string outfilename;
@@ -193,13 +221,12 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
         cout << endl;
     }
     
-    else if (numChoice == "8")
+    else if (numChoice == "9")
     {
         cout << endl;
         cout << "Thanks for using this program." << endl;
         _switch = true;
         cout << endl;
-        return _switch;
     }
     
     else
@@ -207,6 +234,7 @@ bool mainMenuLoop(Euler<string> * eulerGraph, ifstream & ifs, LinkedStack<EdgeIn
         cout << "You have entered an invalid number, try again." << endl;
         cout << endl;
     }
+    
     return _switch;
 
 }
