@@ -55,7 +55,7 @@ public:
    int getEdgeWeight(LabelType start, LabelType end) const;
    void depthFirstTraversal(LabelType start, void visit(LabelType&));
    void breadthFirstTraversal(LabelType start, void visit(LabelType&));
-   void graphToText(ostream & os);
+   void graphToText(ofstream & ofs);
    //---> YOU DECLARE HERE (AND WRITE BELOW) THE MEMBER FUNCTION TO
    //         WRITE THE GRAPH TO A TEXT FILE (SUGGEST TO PASS AN
    //        ifstream TO THIS !
@@ -263,7 +263,7 @@ findOrCreateVertex(const LabelType& vertexLabel)
 }  // end findOrCreateVertex
 
 template <class LabelType>
-void LinkedGraph<LabelType>::graphToText(ostream & os)
+void LinkedGraph<LabelType>::graphToText(ofstream & ofs)
 {
     pvertexIterator = vertices.iterator();
     while (pvertexIterator->hasNext())
@@ -274,7 +274,7 @@ void LinkedGraph<LabelType>::graphToText(ostream & os)
         LabelType neighbor = loopVertex->getNextNeighbor();
         while (neighbor != currentLabel) {
             int weight = loopVertex->getEdgeWeight(neighbor);
-            os << currentLabel << ", " << neighbor << ", " << weight << endl;
+            ofs << currentLabel << " " << neighbor << " " << weight << endl;
             neighbor = loopVertex->getNextNeighbor();
         }
     }  // end while
