@@ -184,6 +184,8 @@ void Euler<LabelType>::printEulerUtil(Vertex<LabelType> *startVertex)
 {
 	// Recur for all the vertices adjacent to this vertex
 	Edge<LabelType> edge;
+	// use resetNeighbor() to use the adjacency list iterator
+	// startVertex->resetNeighbor()
 	DACmapIterator<LabelType, Edge<LabelType>> *iter = startVertex->adjacencyList.iterator();
 	while (iter->hasNext())
 	{
